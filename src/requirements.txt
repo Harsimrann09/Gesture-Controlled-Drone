@@ -1,0 +1,6 @@
+opencv-python==4.10.0.84
+mediapipe==0.10.35
+numpy==1.26.4
+airsim==1.8.1
+msgpack-rpc-python==0.4.1
+msgpack-python==0.5.6

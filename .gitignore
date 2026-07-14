@@ -1,0 +1,97 @@
+# =========================
+# Python Virtual Environment
+# =========================
+
+venv/
+.venv/
+env/
+ENV/
+# Gesture_AirSim_Drone/venv
+
+
+# =========================
+# Python Cache Files
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# =========================
+# VS Code Settings
+# =========================
+
+.vscode/
+*.code-workspace
+
+
+# =========================
+# Jupyter Notebook
+# =========================
+
+.ipynb_checkpoints/
+
+
+# =========================
+# Logs
+# =========================
+
+*.log
+
+
+# =========================
+# OS Generated Files
+# =========================
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+
+# =========================
+# AirSim Files
+# =========================
+
+# AirSim generated files
+settings.json
+*.bin
+*.log
+
+
+# =========================
+# Temporary Files
+# =========================
+
+*.tmp
+*.temp
+*.swp
+
+
+# =========================
+# Python Build Files
+# =========================
+
+build/
+dist/
+*.egg-info/
+
+
+# =========================
+# Model / Large Files
+# =========================
+
+*.h5
+*.pt
+*.pth
+*.onnx
+
+
+# =========================
+# Environment Variables
+# =========================
+
+.env

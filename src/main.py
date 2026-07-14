@@ -6,82 +6,93 @@ from airsim_controller import DroneController
 
 
 
-# -----------------
-# Initialize
-# -----------------
-
 drone = DroneController()
 
 gesture = GestureDetector()
 
 
+
 mp_hands = mp.solutions.hands
+
 
 hands = mp_hands.Hands(
     max_num_hands=1,
-    min_detection_confidence=0.7
+    min_detection_confidence=0.7,
+    min_tracking_confidence=0.7
 )
 
 
-mp_draw = mp.solutions.drawing_utils
-
-
-cap = cv2.VideoCapture(0)
+draw = mp.solutions.drawing_utils
 
 
 
-# -----------------
-# Main Loop
-# -----------------
+cap=cv2.VideoCapture(0)
+
+
+
+last_command=""
+
+
 
 while True:
 
 
-    ret, frame = cap.read()
+    ret,frame=cap.read()
+
 
     if not ret:
         break
 
 
-    frame = cv2.flip(frame,1)
+
+    frame=cv2.flip(frame,1)
 
 
-    rgb = cv2.cvtColor(
+
+    rgb=cv2.cvtColor(
         frame,
         cv2.COLOR_BGR2RGB
     )
 
 
-    results = hands.process(rgb)
+
+    result=hands.process(rgb)
+
 
 
     command="NONE"
 
 
 
-    if results.multi_hand_landmarks:
+    if result.multi_hand_landmarks:
 
 
-        for hand in results.multi_hand_landmarks:
+        hand=result.multi_hand_landmarks[0]
 
 
-            mp_draw.draw_landmarks(
-                frame,
-                hand,
-                mp_hands.HAND_CONNECTIONS
-            )
+        draw.draw_landmarks(
+            frame,
+            hand,
+            mp_hands.HAND_CONNECTIONS
+        )
 
 
-            command = gesture.detect(
-                hand.landmark
-            )
+        command=gesture.detect(
+            hand.landmark
+
+        )
+        print(command)
+
+
+
+
+
+        if command != last_command:
 
 
             print(command)
 
 
-
-            # Drone control
 
             if command=="TAKEOFF":
                 drone.takeoff()
@@ -107,8 +118,20 @@ while True:
                 drone.right()
 
 
+            elif command=="FORWARD":
+                drone.forward()
+
+
+            elif command=="BACKWARD":
+                drone.backward()
+
+
             elif command=="HOVER":
                 drone.hover()
+
+
+
+            last_command=command
 
 
 
@@ -123,13 +146,14 @@ while True:
     )
 
 
+
     cv2.imshow(
-        "Gesture Drone Control",
+        "Gesture AirSim Drone",
         frame
     )
 
 
-    if cv2.waitKey(1)&0xff==ord('q'):
+    if cv2.waitKey(1)==ord('q'):
         break
 
 

@@ -1,5 +1,5 @@
 import airsim
-import time
+
 
 
 class DroneController:
@@ -15,10 +15,13 @@ class DroneController:
 
         self.client.armDisarm(True)
 
+        print("AirSim Drone Connected")
+
+
 
     def takeoff(self):
 
-        print("Taking off")
+        print("TAKEOFF")
 
         self.client.takeoffAsync().join()
 
@@ -26,7 +29,7 @@ class DroneController:
 
     def land(self):
 
-        print("Landing")
+        print("LAND")
 
         self.client.landAsync().join()
 
@@ -34,53 +37,66 @@ class DroneController:
 
     def up(self):
 
-        print("Moving Up")
+        print("UP")
 
         self.client.moveByVelocityAsync(
-            0,0,-2,2
-        ).join()
+            0,0,-2,1
+        )
 
 
 
     def down(self):
 
-        print("Moving Down")
+        print("DOWN")
 
         self.client.moveByVelocityAsync(
-            0,0,2,2
-        ).join()
+            0,0,2,1
+        )
 
 
 
     def left(self):
 
-        print("Moving Left")
+        print("LEFT")
 
         self.client.moveByVelocityAsync(
-            0,-2,0,2
-        ).join()
+            0,-2,0,1
+        )
 
 
 
     def right(self):
 
-        print("Moving Right")
+        print("RIGHT")
 
         self.client.moveByVelocityAsync(
-            0,2,0,2
-        ).join()
+            0,2,0,1
+        )
+
+
+
+    def forward(self):
+
+        print("FORWARD")
+
+        self.client.moveByVelocityAsync(
+            2,0,0,1
+        )
+
+
+
+    def backward(self):
+
+        print("BACKWARD")
+
+        self.client.moveByVelocityAsync(
+            -2,0,0,1
+        )
 
 
 
     def hover(self):
 
-        print("Hover")
+        print("HOVER")
 
-        self.client.hoverAsync().join()
-
-
-
-    def stop(self):
-
-        self.client.hoverAsync().join()
-        
+        self.client.hoverAsync()

@@ -1,41 +1,41 @@
 class GestureDetector:
 
 
-    def get_fingers(self, landmarks):
+    def get_fingers(self, lm):
 
         fingers = []
 
 
         # Thumb
-        if landmarks[4].x < landmarks[3].x:
+        if lm[4].x < lm[3].x:
             fingers.append(1)
         else:
             fingers.append(0)
 
 
         # Index
-        if landmarks[8].y < landmarks[6].y:
+        if lm[8].y < lm[6].y:
             fingers.append(1)
         else:
             fingers.append(0)
 
 
         # Middle
-        if landmarks[12].y < landmarks[10].y:
+        if lm[12].y < lm[10].y:
             fingers.append(1)
         else:
             fingers.append(0)
 
 
         # Ring
-        if landmarks[16].y < landmarks[14].y:
+        if lm[16].y < lm[14].y:
             fingers.append(1)
         else:
             fingers.append(0)
 
 
         # Pinky
-        if landmarks[20].y < landmarks[18].y:
+        if lm[20].y < lm[18].y:
             fingers.append(1)
         else:
             fingers.append(0)
@@ -45,98 +45,113 @@ class GestureDetector:
 
 
 
-    def detect(self, landmarks):
+    def detect(self, lm):
 
-        thumb,index,middle,ring,pinky = self.get_fingers(landmarks)
+
+        thumb,index,middle,ring,pinky = self.get_fingers(lm)
+
+
+        fingers=[
+            thumb,
+            index,
+            middle,
+            ring,
+            pinky
+        ]
+
+
+        print(fingers)
 
 
 
         # ------------------
-        # LAND - FIST
+        # LAND
         # ------------------
-        if [thumb,index,middle,ring,pinky] == [0,0,0,0,0]:
+
+        if fingers == [0,0,0,0,0]:
             return "LAND"
 
 
 
         # ------------------
-        # TAKEOFF - VICTORY
+        # HOVER
         # ------------------
-        if (
-            index == 1 and
-            middle == 1 and
-            ring == 0 and
-            pinky == 0
-        ):
-            return "TAKEOFF"
 
-
-
-        # ------------------
-        # HOVER - OPEN PALM
-        # ------------------
-        if [thumb,index,middle,ring,pinky] == [1,1,1,1,1]:
+        if fingers == [1,1,1,1,1]:
             return "HOVER"
 
 
 
         # ------------------
-        # UP - INDEX ONLY
+        # TAKEOFF
+        # Victory
         # ------------------
-        if (
-            index == 1 and
-            thumb == 0 and
-            middle == 0 and
-            ring == 0 and
-            pinky == 0
-        ):
+
+        if fingers == [0,1,1,0,0]:
+            return "TAKEOFF"
+
+
+
+        # ------------------
+        # UP
+        # Index only
+        # ------------------
+
+        if fingers == [0,1,0,0,0]:
             return "UP"
 
 
 
         # ------------------
-        # DOWN - THUMB DOWN
+        # DOWN
+        # Thumb only
         # ------------------
-        if (
-            thumb == 1 and
-            index == 0 and
-            middle == 0 and
-            ring == 0 and
-            pinky == 0
-        ):
-            if landmarks[4].y > landmarks[3].y:
-                return "DOWN"
+
+        if fingers == [1,0,0,0,0]:
+            return "DOWN"
 
 
 
         # ------------------
-        # RIGHT - PINKY ONLY
+        # RIGHT
+        # Pinky only
         # ------------------
-        if (
-            pinky == 1 and
-            thumb == 0 and
-            index == 0 and
-            middle == 0 and
-            ring == 0
-        ):
+
+        if fingers == [0,0,0,0,1]:
             return "RIGHT"
 
 
 
         # ------------------
-        # LEFT - CALL SIGN
+        # LEFT
         # Thumb + Pinky
         # ------------------
-        if (
-            thumb == 1 and
-            pinky == 1 and
-            index == 0 and
-            middle == 0 and
-            ring == 0
-        ):
+
+        if fingers == [1,0,0,0,1]:
             return "LEFT"
 
 
 
+        # ------------------
+        # FORWARD
+        # Index + Middle + Pinky
+        # 🤟
+        # ------------------
+
+        if fingers == [0,1,1,0,1]:
+            return "FORWARD"
+
+
+
+        # ------------------
+        # BACKWARD
+        # Middle + Ring + Pinky
+        # 🤘
+        # ------------------
+
+        if fingers == [0,0,1,1,1]:
+            return "BACKWARD"
+
+
+
         return "NONE"
-    
